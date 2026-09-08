@@ -2,55 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>J&A Store Inventory</title>
 
-    <!-- =====================================================
-         FIREBASE COMPAT SDK
-    ====================================================== -->
-
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
-
     <style>
-
-        /* =====================================================
-           VARIABLES
-        ====================================================== */
+        /* ================================
+           J&A STORE INVENTORY
+           CSS
+        ================================= */
 
         :root {
-            --green-dark: #075e2b;
-            --green: #12833b;
-            --green-light: #e8f7ed;
-            --green-soft: #f1faf4;
-
+            --primary: #16803a;
+            --primary-dark: #0d5c2a;
+            --primary-light: #e8f7ed;
+            --secondary: #f5b942;
+            --danger: #dc3545;
+            --warning: #f59e0b;
             --white: #ffffff;
-            --background: #f4f8f5;
-
+            --background: #f3f7f4;
             --text: #1f2937;
             --muted: #6b7280;
-
-            --border: #dce7df;
-
-            --yellow: #f5b942;
-            --red: #dc3545;
-            --blue: #2563eb;
-
-            --shadow:
-                0 10px 30px rgba(0, 80, 30, 0.08);
-
+            --border: #dce5df;
+            --shadow: 0 10px 30px rgba(0, 80, 30, 0.08);
             --radius: 16px;
         }
-
-
-        /* =====================================================
-           RESET
-        ====================================================== */
 
         * {
             box-sizing: border-box;
@@ -58,1841 +35,850 @@
             padding: 0;
         }
 
-
         body {
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
+            font-family: Arial, Helvetica, sans-serif;
             background: var(--background);
             color: var(--text);
             min-height: 100vh;
         }
 
-
-        button,
-        input,
-        textarea {
-            font-family: inherit;
-        }
-
-
-        /* =====================================================
-           LOGIN
-        ====================================================== */
-
-        #loginPage {
-
-            min-height: 100vh;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #075e2b,
-                    #12833b,
-                    #32a852
-                );
-        }
-
-
-        .login-container {
-
-            width: 100%;
-            max-width: 430px;
-
-            background: white;
-
-            padding: 40px;
-
-            border-radius: 24px;
-
-            box-shadow:
-                0 25px 60px rgba(0,0,0,.20);
-
-            animation:
-                loginIn .5s ease;
-        }
-
-
-        @keyframes loginIn {
-
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-        }
-
-
-        .login-logo {
-
-            width: 75px;
-            height: 75px;
-
-            background: var(--green);
-
-            color: white;
-
-            border-radius: 20px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-weight: bold;
-
-            font-size: 23px;
-
-            margin: 0 auto 20px;
-        }
-
-
-        .login-title {
-
-            text-align: center;
-
-            color: var(--green-dark);
-
-            font-size: 26px;
-
-            margin-bottom: 5px;
-        }
-
-
-        .login-subtitle {
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: 14px;
-
-            margin-bottom: 30px;
-        }
-
-
-        .login-group {
-
-            margin-bottom: 18px;
-        }
-
-
-        .login-group label {
-
-            display: block;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            margin-bottom: 7px;
-        }
-
-
-        .login-group input {
-
-            width: 100%;
-
-            padding: 13px 14px;
-
-            border:
-                1px solid var(--border);
-
-            border-radius: 10px;
-
-            outline: none;
-
-            transition: .2s;
-        }
-
-
-        .login-group input:focus {
-
-            border-color: var(--green);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(18,131,59,.10);
-        }
-
-
-        .login-button {
-
-            width: 100%;
-
-            border: none;
-
-            padding: 14px;
-
-            border-radius: 10px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--green-dark),
-                    var(--green)
-                );
-
-            color: white;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: .25s;
-
-            margin-top: 5px;
-        }
-
-
-        .login-button:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 8px 20px
-                rgba(18,131,59,.25);
-        }
-
-
-        .login-error {
-
-            display: none;
-
-            background: #fee2e2;
-
-            color: #991b1b;
-
-            padding: 11px;
-
-            border-radius: 9px;
-
-            font-size: 13px;
-
-            margin-bottom: 15px;
-
-            text-align: center;
-        }
-
-
-        .login-error.show {
-            display: block;
-        }
-
-
-        .login-footer {
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: 12px;
-
-            margin-top: 25px;
-        }
-
-
-        /* =====================================================
-           APP
-        ====================================================== */
-
-        #app {
-
-            display: none;
-
-            min-height: 100vh;
-        }
-
-
-        #app.show {
-            display: block;
-        }
-
-
-        /* =====================================================
+        /* ================================
            SIDEBAR
-        ====================================================== */
+        ================================= */
 
         .sidebar {
-
             position: fixed;
-
             left: 0;
             top: 0;
-
             width: 250px;
-
             height: 100vh;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #075e2b,
-                    #064c24
-                );
-
+            background: linear-gradient(
+                180deg,
+                #126b31,
+                #0b5426
+            );
             color: white;
-
             padding: 25px 18px;
-
             z-index: 1000;
-
-            box-shadow:
-                5px 0 20px
-                rgba(0,0,0,.08);
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.08);
         }
-
 
         .brand {
-
             display: flex;
-
             align-items: center;
-
             gap: 12px;
-
             padding: 10px;
-
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
-
 
         .brand-logo {
-
             width: 48px;
             height: 48px;
-
             background: white;
-
-            color: var(--green);
-
+            color: var(--primary);
             border-radius: 14px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
+            font-size: 25px;
             font-weight: bold;
-
-            font-size: 16px;
         }
-
 
         .brand h2 {
-            font-size: 19px;
+            font-size: 20px;
         }
-
 
         .brand span {
-
-            font-size: 11px;
-
-            opacity: .7;
+            font-size: 12px;
+            opacity: 0.75;
         }
-
 
         .nav-menu {
-
             list-style: none;
         }
-
 
         .nav-menu li {
             margin-bottom: 8px;
         }
 
-
         .nav-menu button {
-
             width: 100%;
-
             border: none;
-
             background: transparent;
-
             color: white;
-
             padding: 13px 15px;
-
             border-radius: 10px;
-
             text-align: left;
-
             cursor: pointer;
-
-            transition: .25s;
+            font-size: 15px;
+            transition: 0.3s;
         }
 
-
-        .nav-menu button:hover {
-
-            background:
-                rgba(255,255,255,.12);
-
-            transform:
-                translateX(4px);
-        }
-
-
+        .nav-menu button:hover,
         .nav-menu button.active {
-
-            background:
-                rgba(255,255,255,.17);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(4px);
         }
 
-
-        .logout-button {
-
-            position: absolute;
-
-            bottom: 25px;
-
-            left: 18px;
-            right: 18px;
-
-            width: calc(100% - 36px);
-
-            border: none;
-
-            padding: 12px;
-
-            border-radius: 10px;
-
-            background:
-                rgba(255,255,255,.12);
-
-            color: white;
-
-            cursor: pointer;
-
-            transition: .25s;
-        }
-
-
-        .logout-button:hover {
-
-            background:
-                rgba(255,255,255,.22);
-        }
-
-
-        /* =====================================================
+        /* ================================
            MAIN
-        ====================================================== */
+        ================================= */
 
         .main {
-
             margin-left: 250px;
-
             min-height: 100vh;
         }
 
-
         .topbar {
-
             height: 75px;
-
             background: white;
-
-            border-bottom:
-                1px solid var(--border);
-
+            border-bottom: 1px solid var(--border);
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
             padding: 0 30px;
-
             position: sticky;
-
             top: 0;
-
             z-index: 500;
         }
 
-
         .page-title h1 {
-
             font-size: 23px;
         }
 
-
         .page-title p {
-
-            color: var(--muted);
-
             font-size: 13px;
-
+            color: var(--muted);
             margin-top: 3px;
         }
 
-
         .admin-profile {
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
         }
 
-
         .admin-avatar {
-
-            width: 42px;
-            height: 42px;
-
-            background:
-                var(--green-light);
-
-            color:
-                var(--green);
-
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-
+            background: var(--primary-light);
+            color: var(--primary);
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             font-weight: bold;
         }
-
-
-        .role-badge {
-
-            display: inline-block;
-
-            font-size: 10px;
-
-            padding: 4px 8px;
-
-            border-radius: 20px;
-
-            background:
-                var(--green-light);
-
-            color:
-                var(--green-dark);
-
-            font-weight: bold;
-
-            margin-top: 3px;
-        }
-
 
         .content {
             padding: 30px;
         }
 
-
-        /* =====================================================
-           STATS
-        ====================================================== */
+        /* ================================
+           DASHBOARD CARDS
+        ================================= */
 
         .stats {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-
             margin-bottom: 30px;
         }
 
-
         .stat-card {
-
             background: white;
-
             padding: 22px;
-
             border-radius: var(--radius);
-
             box-shadow: var(--shadow);
-
-            border:
-                1px solid var(--border);
-
+            border: 1px solid var(--border);
             display: flex;
-
             align-items: center;
-
             gap: 15px;
-
-            transition: .3s;
+            transition: 0.3s;
         }
-
 
         .stat-card:hover {
-
-            transform:
-                translateY(-5px);
+            transform: translateY(-5px);
         }
-
 
         .stat-icon {
-
             width: 52px;
             height: 52px;
-
             border-radius: 14px;
-
-            background:
-                var(--green-light);
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
-            font-size: 24px;
+            font-size: 25px;
+            background: var(--primary-light);
         }
-
 
         .stat-card h3 {
-            font-size: 24px;
+            font-size: 25px;
         }
 
-
         .stat-card p {
-
             color: var(--muted);
-
-            font-size: 12px;
-
+            font-size: 13px;
             margin-top: 3px;
         }
 
-
-        /* =====================================================
+        /* ================================
            TOOLBAR
-        ====================================================== */
+        ================================= */
 
         .toolbar {
-
             background: white;
-
-            padding: 20px;
-
             border-radius: var(--radius);
-
-            box-shadow: var(--shadow);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
+            padding: 20px;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
         }
-
 
         .search-box {
-
             flex: 1;
-
             max-width: 450px;
+            position: relative;
         }
-
 
         .search-box input {
-
             width: 100%;
-
             padding: 13px 16px;
-
-            border:
-                1px solid var(--border);
-
+            border: 1px solid var(--border);
             border-radius: 10px;
-
             outline: none;
+            font-size: 14px;
         }
-
 
         .search-box input:focus {
-
-            border-color:
-                var(--green);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(18,131,59,.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(22, 128, 58, 0.1);
         }
-
 
         .btn {
-
             border: none;
-
-            padding: 11px 17px;
-
-            border-radius: 9px;
-
+            padding: 12px 18px;
+            border-radius: 10px;
             cursor: pointer;
-
             font-weight: bold;
-
-            transition: .25s;
+            transition: 0.25s;
         }
-
 
         .btn:hover {
-
-            transform:
-                translateY(-2px);
+            transform: translateY(-2px);
         }
 
-
         .btn-primary {
-
-            background:
-                var(--green);
-
+            background: var(--primary);
             color: white;
         }
 
-
         .btn-primary:hover {
-
-            background:
-                var(--green-dark);
+            background: var(--primary-dark);
         }
-
-
-        .btn-warning {
-
-            background:
-                #fff3cd;
-
-            color:
-                #92400e;
-        }
-
-
-        .btn-danger {
-
-            background:
-                #fee2e2;
-
-            color:
-                #991b1b;
-        }
-
 
         .btn-secondary {
-
-            background:
-                #e9f0eb;
-
-            color:
-                var(--green-dark);
+            background: #e8f0ea;
+            color: var(--primary-dark);
         }
 
-
-        .btn-blue {
-
-            background:
-                #dbeafe;
-
-            color:
-                #1d4ed8;
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
         }
 
-
-        /* =====================================================
-           STAFF NOTICE
-        ====================================================== */
-
-        .staff-notice {
-
-            display: none;
-
-            background:
-                #eff6ff;
-
-            border:
-                1px solid #bfdbfe;
-
-            color:
-                #1e40af;
-
-            padding: 13px 16px;
-
-            border-radius: 10px;
-
-            margin-bottom: 20px;
-
-            font-size: 13px;
+        .btn-warning {
+            background: #fff3cd;
+            color: #92400e;
         }
 
-
-        .staff-notice.show {
-            display: block;
-        }
-
-
-        /* =====================================================
-           PRODUCTS
-        ====================================================== */
+        /* ================================
+           PRODUCT GRID
+        ================================= */
 
         .products-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
 
-
         .product-card {
-
             background: white;
-
             border-radius: var(--radius);
-
             overflow: hidden;
-
-            border:
-                1px solid var(--border);
-
             box-shadow: var(--shadow);
-
-            transition: .3s;
-
-            animation:
-                cardIn .4s ease;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            animation: cardIn 0.45s ease;
         }
 
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 80, 30, 0.13);
+        }
 
         @keyframes cardIn {
-
             from {
                 opacity: 0;
                 transform: translateY(15px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-
-        .product-card:hover {
-
-            transform:
-                translateY(-6px);
-
-            box-shadow:
-                0 15px 35px
-                rgba(0,80,30,.13);
-        }
-
-
         .product-image {
-
             width: 100%;
-
-            height: 185px;
-
+            height: 190px;
             object-fit: cover;
-
-            background:
-                var(--green-light);
+            background: #edf5ef;
         }
-
 
         .product-info {
             padding: 17px;
         }
 
-
         .product-name {
-
-            font-size: 16px;
-
+            font-size: 17px;
             font-weight: bold;
-
             margin-bottom: 6px;
         }
 
-
         .product-description {
-
             color: var(--muted);
-
-            font-size: 12px;
-
+            font-size: 13px;
             line-height: 1.5;
-
-            min-height: 38px;
+            min-height: 40px;
         }
-
 
         .product-price {
-
-            color:
-                var(--green);
-
-            font-weight: bold;
-
+            color: var(--primary);
             font-size: 19px;
-
+            font-weight: bold;
             margin-top: 12px;
         }
-
 
         .quantity-row {
-
             display: flex;
-
-            align-items: center;
-
             justify-content: space-between;
-
+            align-items: center;
             margin-top: 12px;
         }
 
-
         .quantity {
-
-            font-size: 12px;
-
+            font-size: 13px;
             font-weight: bold;
         }
-
 
         .stock-badge {
-
             padding: 5px 9px;
-
             border-radius: 20px;
-
-            font-size: 10px;
-
+            font-size: 11px;
             font-weight: bold;
         }
 
-
         .stock-good {
-
-            background:
-                #dcfce7;
-
-            color:
-                #166534;
+            background: #dcfce7;
+            color: #166534;
         }
-
 
         .stock-low {
-
-            background:
-                #fef3c7;
-
-            color:
-                #92400e;
+            background: #fef3c7;
+            color: #92400e;
         }
-
 
         .stock-out {
-
-            background:
-                #fee2e2;
-
-            color:
-                #991b1b;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-
         .product-actions {
-
             display: flex;
-
-            gap: 7px;
-
+            gap: 8px;
             margin-top: 15px;
         }
 
-
         .product-actions button {
-
             flex: 1;
-
             padding: 9px;
-
-            font-size: 11px;
+            font-size: 12px;
         }
 
-
-        .staff-actions {
-
-            display: none;
-
-            margin-top: 14px;
-        }
-
-
-        .staff-actions input {
-
-            width: 100%;
-
-            padding: 9px;
-
-            border:
-                1px solid var(--border);
-
-            border-radius: 8px;
-
-            margin-bottom: 7px;
-        }
-
-
-        .staff-actions button {
-            width: 100%;
-        }
-
-
-        /* =====================================================
+        /* ================================
            MODAL
-        ====================================================== */
+        ================================= */
 
         .modal-overlay {
-
             display: none;
-
             position: fixed;
-
             inset: 0;
-
-            background:
-                rgba(0,0,0,.5);
-
-            backdrop-filter:
-                blur(4px);
-
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             align-items: center;
-
             justify-content: center;
-
             z-index: 2000;
-
             padding: 20px;
         }
 
-
         .modal-overlay.show {
-
             display: flex;
-
-            animation:
-                fadeIn .2s ease;
+            animation: fadeIn 0.2s ease;
         }
-
 
         @keyframes fadeIn {
-
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
         }
-
 
         .modal {
-
             width: 100%;
-
-            max-width: 580px;
-
-            max-height: 90vh;
-
-            overflow-y: auto;
-
+            max-width: 600px;
             background: white;
-
-            padding: 25px;
-
             border-radius: 20px;
-
-            animation:
-                modalIn .3s ease;
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
         }
-
 
         @keyframes modalIn {
-
             from {
+                transform: scale(0.92) translateY(15px);
                 opacity: 0;
-                transform: scale(.94);
             }
-
             to {
+                transform: scale(1) translateY(0);
                 opacity: 1;
-                transform: scale(1);
             }
         }
 
-
         .modal-header {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             margin-bottom: 20px;
         }
 
-
         .modal-header h2 {
-
-            color:
-                var(--green-dark);
+            color: var(--primary-dark);
         }
 
-
         .close-btn {
-
             border: none;
-
+            background: #f1f5f2;
             width: 35px;
             height: 35px;
-
             border-radius: 50%;
-
-            background:
-                #f1f5f2;
-
             cursor: pointer;
-
             font-size: 18px;
         }
 
-
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
-
 
         .form-group label {
-
             display: block;
-
-            font-size: 12px;
-
+            font-size: 13px;
             font-weight: bold;
-
-            margin-bottom: 6px;
+            margin-bottom: 7px;
         }
-
 
         .form-group input,
         .form-group textarea {
-
             width: 100%;
-
-            padding: 12px;
-
-            border:
-                1px solid var(--border);
-
+            border: 1px solid var(--border);
             border-radius: 9px;
-
+            padding: 12px;
+            font-family: inherit;
             outline: none;
         }
 
-
         .form-group textarea {
-
-            min-height: 85px;
-
+            min-height: 90px;
             resize: vertical;
         }
 
-
         .form-group input:focus,
         .form-group textarea:focus {
-
-            border-color:
-                var(--green);
+            border-color: var(--primary);
         }
 
-
         .form-row {
-
             display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-
         .modal-buttons {
-
             display: flex;
-
-            justify-content: flex-end;
-
             gap: 10px;
-
+            justify-content: flex-end;
             margin-top: 20px;
         }
 
-
-        /* =====================================================
-           EMPTY
-        ====================================================== */
+        /* ================================
+           EMPTY STATE
+        ================================= */
 
         .empty-state {
-
             grid-column: 1 / -1;
-
             background: white;
-
             padding: 60px 20px;
-
             text-align: center;
-
             border-radius: var(--radius);
-
             box-shadow: var(--shadow);
         }
 
-
-        .empty-state-icon {
-
+        .empty-state div {
             font-size: 50px;
-
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
+        .empty-state h3 {
+            margin-bottom: 8px;
+        }
 
         .empty-state p {
-
             color: var(--muted);
-
-            margin-top: 5px;
         }
 
-
-        /* =====================================================
+        /* ================================
            TOAST
-        ====================================================== */
+        ================================= */
 
         .toast {
-
             position: fixed;
-
             right: 25px;
-
             bottom: 25px;
-
-            padding: 14px 20px;
-
-            border-radius: 10px;
-
+            background: #14532d;
             color: white;
-
-            background:
-                #14532d;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0,0,0,.2);
-
-            transform:
-                translateY(100px);
-
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.2);
+            transform: translateY(100px);
             opacity: 0;
-
             transition: .35s;
-
             z-index: 5000;
         }
 
-
         .toast.show {
-
-            transform:
-                translateY(0);
-
+            transform: translateY(0);
             opacity: 1;
         }
 
-
         .toast.error {
-
-            background:
-                #991b1b;
+            background: #991b1b;
         }
 
-
-        /* =====================================================
+        /* ================================
            LOADING
-        ====================================================== */
+        ================================= */
 
         .loading {
-
             position: fixed;
-
             inset: 0;
-
-            background:
-                rgba(255,255,255,.82);
-
+            background: rgba(255,255,255,.8);
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             z-index: 6000;
         }
-
 
         .loading.hidden {
             display: none;
         }
 
-
         .spinner {
-
             width: 45px;
             height: 45px;
-
-            border:
-                4px solid #dcefe1;
-
-            border-top-color:
-                var(--green);
-
+            border: 4px solid #d9eadf;
+            border-top-color: var(--primary);
             border-radius: 50%;
-
-            animation:
-                spin .8s linear infinite;
+            animation: spin .8s linear infinite;
         }
 
-
         @keyframes spin {
-
             to {
                 transform: rotate(360deg);
             }
         }
 
-
-        /* =====================================================
+        /* ================================
            RESPONSIVE
-        ====================================================== */
+        ================================= */
 
-        @media(max-width:1200px) {
-
+        @media (max-width: 1200px) {
             .products-grid {
-                grid-template-columns:
-                    repeat(3,1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
 
             .stats {
-                grid-template-columns:
-                    repeat(2,1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
-
-        @media(max-width:800px) {
-
+        @media (max-width: 800px) {
             .sidebar {
-
                 position: static;
-
                 width: 100%;
-
                 height: auto;
-
-                padding-bottom: 80px;
             }
 
+            .brand {
+                margin-bottom: 15px;
+            }
+
+            .nav-menu {
+                display: flex;
+                gap: 5px;
+            }
+
+            .nav-menu li {
+                flex: 1;
+            }
 
             .main {
                 margin-left: 0;
             }
 
-
-            .logout-button {
-
-                position: absolute;
-
-                bottom: 15px;
+            .topbar {
+                position: static;
             }
-
 
             .products-grid {
-
-                grid-template-columns:
-                    repeat(2,1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
-
-        @media(max-width:550px) {
-
-            .login-container {
-                padding: 28px 20px;
-            }
-
-
+        @media (max-width: 550px) {
             .content {
                 padding: 15px;
             }
-
 
             .stats {
                 grid-template-columns: 1fr;
             }
 
-
             .products-grid {
                 grid-template-columns: 1fr;
             }
-
 
             .toolbar {
                 flex-direction: column;
                 align-items: stretch;
             }
 
-
             .search-box {
                 max-width: none;
             }
-
 
             .form-row {
                 grid-template-columns: 1fr;
             }
 
-
             .admin-profile {
                 display: none;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<!-- ================================
+     SIDEBAR
+================================ -->
 
-<!-- =========================================================
-     LOGIN PAGE
-========================================================= -->
+<aside class="sidebar">
 
-<section id="loginPage">
+    <div class="brand">
 
-    <div class="login-container">
-
-        <div class="login-logo">
+        <div class="brand-logo">
             J&A
         </div>
 
-        <h1 class="login-title">
-            J&A Store
-        </h1>
-
-        <p class="login-subtitle">
-            Inventory Management System
-        </p>
-
-
-        <div
-            id="loginError"
-            class="login-error"
-        >
-        </div>
-
-
-        <form id="loginForm">
-
-            <div class="login-group">
-
-                <label>
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="loginEmail"
-                    placeholder="Enter your email"
-                    required
-                >
-
-            </div>
-
-
-            <div class="login-group">
-
-                <label>
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter your password"
-                    required
-                >
-
-            </div>
-
-
-            <button
-                class="login-button"
-                type="submit"
-            >
-                🔐 Login
-            </button>
-
-        </form>
-
-
-        <div class="login-footer">
-
-            Authorized Admin and Staff only
-
+        <div>
+            <h2>J&A Store</h2>
+            <span>Inventory System</span>
         </div>
 
     </div>
 
-</section>
+    <ul class="nav-menu">
+
+        <li>
+            <button class="active">
+                📊 Dashboard
+            </button>
+        </li>
+
+        <li>
+            <button onclick="focusProducts()">
+                📦 Products
+            </button>
+        </li>
+
+        <li>
+            <button onclick="openAddModal()">
+                ➕ Add Product
+            </button>
+        </li>
+
+    </ul>
+
+</aside>
 
 
-<!-- =========================================================
-     APPLICATION
-========================================================= -->
+<!-- ================================
+     MAIN
+================================ -->
 
-<div id="app">
+<main class="main">
 
+    <header class="topbar">
 
-    <!-- SIDEBAR -->
+        <div class="page-title">
+            <h1>Inventory Dashboard</h1>
+            <p>Manage your J&A Store products</p>
+        </div>
 
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="brand-logo">
-                J&A
-            </div>
+        <div class="admin-profile">
 
             <div>
+                <strong>Administrator</strong>
+                <small style="display:block;color:#6b7280;">
+                    Inventory Manager
+                </small>
+            </div>
 
-                <h2>
-                    J&A Store
-                </h2>
+            <div class="admin-avatar">
+                AD
+            </div>
 
-                <span>
-                    Inventory System
-                </span>
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <!-- ================================
+             STATISTICS
+        ================================= -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+                <div>
+                    <h3 id="totalProducts">0</h3>
+                    <p>Total Products</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+                <div>
+                    <h3 id="totalQuantity">0</h3>
+                    <p>Total Quantity</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+                <div>
+                    <h3 id="lowStock">0</h3>
+                    <p>Low Stock</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <div>
+                    <h3 id="inventoryValue">₱0</h3>
+                    <p>Inventory Value</p>
+                </div>
 
             </div>
 
         </div>
 
 
-        <ul class="nav-menu">
+        <!-- ================================
+             TOOLBAR
+        ================================= -->
 
-            <li>
+        <div class="toolbar">
 
-                <button
-                    class="active"
-                    onclick="scrollProducts()"
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔎 Search product..."
+                    oninput="searchProducts()"
                 >
-                    📊 Dashboard
-                </button>
-
-            </li>
-
-
-            <li>
-
-                <button
-                    onclick="scrollProducts()"
-                >
-                    📦 Products
-                </button>
-
-            </li>
-
-
-            <li id="addProductNav">
-
-                <button
-                    onclick="openAddModal()"
-                >
-                    ➕ Add Product
-                </button>
-
-            </li>
-
-        </ul>
-
-
-        <button
-            class="logout-button"
-            onclick="logout()"
-        >
-            🚪 Logout
-        </button>
-
-    </aside>
-
-
-    <!-- MAIN -->
-
-    <main class="main">
-
-
-        <!-- TOP BAR -->
-
-        <header class="topbar">
-
-            <div class="page-title">
-
-                <h1>
-                    Inventory Dashboard
-                </h1>
-
-                <p>
-                    Manage J&A Store inventory
-                </p>
 
             </div>
 
-
-            <div class="admin-profile">
-
-                <div>
-
-                    <strong id="userName">
-                        User
-                    </strong>
-
-                    <span
-                        class="role-badge"
-                        id="userRole"
-                    >
-                        STAFF
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="admin-avatar"
-                    id="userAvatar"
-                >
-                    U
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <!-- CONTENT -->
-
-        <section class="content">
-
-
-            <!-- STAFF NOTICE -->
-
-            <div
-                id="staffNotice"
-                class="staff-notice"
+            <button
+                class="btn btn-primary"
+                onclick="openAddModal()"
             >
+                + Add Product
+            </button>
 
-                👷 <strong>Staff Access:</strong>
-                You can view inventory and update
-                product quantities. Product creation,
-                editing, and deletion are restricted
-                to administrators.
-
-            </div>
+        </div>
 
 
-            <!-- STATISTICS -->
+        <!-- ================================
+             PRODUCTS
+        ================================= -->
 
-            <div class="stats">
+        <div
+            class="products-grid"
+            id="productsGrid"
+        ></div>
 
+    </section>
 
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        📦
-                    </div>
-
-                    <div>
-
-                        <h3 id="totalProducts">
-                            0
-                        </h3>
-
-                        <p>
-                            Total Products
-                        </p>
-
-                    </div>
-
-                </div>
+</main>
 
 
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        📊
-                    </div>
-
-                    <div>
-
-                        <h3 id="totalQuantity">
-                            0
-                        </h3>
-
-                        <p>
-                            Total Quantity
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        ⚠️
-                    </div>
-
-                    <div>
-
-                        <h3 id="lowStock">
-                            0
-                        </h3>
-
-                        <p>
-                            Low Stock
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        💰
-                    </div>
-
-                    <div>
-
-                        <h3 id="inventoryValue">
-                            ₱0.00
-                        </h3>
-
-                        <p>
-                            Inventory Value
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- TOOLBAR -->
-
-            <div class="toolbar">
-
-                <div class="search-box">
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="🔎 Search products..."
-                        oninput="searchProducts()"
-                    >
-
-                </div>
-
-
-                <button
-                    id="addProductButton"
-                    class="btn btn-primary"
-                    onclick="openAddModal()"
-                >
-                    + Add Product
-                </button>
-
-            </div>
-
-
-            <!-- PRODUCTS -->
-
-            <div
-                class="products-grid"
-                id="productsGrid"
-            >
-            </div>
-
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- =========================================================
+<!-- ================================
      PRODUCT MODAL
-========================================================= -->
+================================ -->
 
 <div
     class="modal-overlay"
@@ -1949,7 +935,7 @@
 
                 <textarea
                     id="productDescription"
-                    placeholder="Product description..."
+                    placeholder="Enter product description..."
                     required
                 ></textarea>
 
@@ -1969,6 +955,7 @@
                         id="productPrice"
                         min="0"
                         step="0.01"
+                        placeholder="0.00"
                         required
                     >
 
@@ -1985,6 +972,7 @@
                         type="number"
                         id="productQuantity"
                         min="0"
+                        placeholder="0"
                         required
                     >
 
@@ -2002,7 +990,7 @@
                 <input
                     type="url"
                     id="productImage"
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="https://example.com/product.jpg"
                     required
                 >
 
@@ -2018,7 +1006,6 @@
                 >
                     Cancel
                 </button>
-
 
                 <button
                     type="submit"
@@ -2036,10 +1023,12 @@
 </div>
 
 
-<!-- LOADING -->
+<!-- ================================
+     LOADING
+================================ -->
 
 <div
-    class="loading hidden"
+    class="loading"
     id="loading"
 >
 
@@ -2048,108 +1037,55 @@
 </div>
 
 
-<!-- TOAST -->
+<!-- ================================
+     TOAST
+================================ -->
 
 <div
     class="toast"
     id="toast"
->
-</div>
+></div>
 
 
 <script>
 
-/* =========================================================
-   FIREBASE CONFIGURATION
-=========================================================
-
-   IMPORTANT:
-
-   Replace these values with your Firebase Web App
-   configuration.
-
-   Firebase Console:
-   Project Settings
-   →
-   Your apps
-   →
-   Web App
-   →
-   Firebase SDK configuration
-
-========================================================= */
+/* =====================================================
+   J&A STORE INVENTORY SYSTEM
+   JAVASCRIPT + FIREBASE REALTIME DATABASE REST API
+===================================================== */
 
 
-const firebaseConfig = {
+/* =====================================================
+   FIREBASE DATABASE URL
+===================================================== */
 
-    apiKey:
-        "PASTE_YOUR_FIREBASE_API_KEY_HERE",
-
-    authDomain:
-        "ja-store-inventory.firebaseapp.com",
-
-    databaseURL:
-        "https://ja-store-inventory-default-rtdb.firebaseio.com",
-
-    projectId:
-        "ja-store-inventory",
-
-    storageBucket:
-        "ja-store-inventory.firebasestorage.app",
-
-    messagingSenderId:
-        "PASTE_YOUR_MESSAGING_SENDER_ID",
-
-    appId:
-        "PASTE_YOUR_APP_ID"
-
-};
+const DATABASE_URL =
+    "https://ja-store-inventory-default-rtdb.firebaseio.com";
 
 
-/* =========================================================
-   INITIALIZE FIREBASE
-========================================================= */
-
-firebase.initializeApp(firebaseConfig);
+const PRODUCTS_PATH =
+    `${DATABASE_URL}/products`;
 
 
-const auth =
-    firebase.auth();
-
-
-const database =
-    firebase.database();
-
-
-const productsRef =
-    database.ref("products");
-
-
-const usersRef =
-    database.ref("users");
-
-
-/* =========================================================
-   APPLICATION STATE
-========================================================= */
-
-let currentUser = null;
-
-let currentRole = null;
+/* =====================================================
+   APPLICATION DATA
+===================================================== */
 
 let products = [];
 
+let editingProductId = null;
 
-/* =========================================================
+
+/* =====================================================
    SAMPLE PRODUCTS
-========================================================= */
+===================================================== */
 
 const sampleProducts = [
 
     {
         name: "Lucky Me Pancit Canton",
         description: "Popular Filipino instant stir-fried noodles.",
-        price: 18,
+        price: 18.00,
         quantity: 45,
         image: "https://loremflickr.com/600/400/noodles?lock=1"
     },
@@ -2157,7 +1093,7 @@ const sampleProducts = [
     {
         name: "555 Sardines",
         description: "Classic Filipino canned sardines.",
-        price: 28,
+        price: 28.00,
         quantity: 35,
         image: "https://loremflickr.com/600/400/sardines?lock=2"
     },
@@ -2165,7 +1101,7 @@ const sampleProducts = [
     {
         name: "Century Tuna",
         description: "Canned tuna commonly enjoyed with rice.",
-        price: 42,
+        price: 42.00,
         quantity: 28,
         image: "https://loremflickr.com/600/400/tuna?lock=3"
     },
@@ -2173,7 +1109,7 @@ const sampleProducts = [
     {
         name: "Argentina Corned Beef",
         description: "Popular canned corned beef product.",
-        price: 45,
+        price: 45.00,
         quantity: 32,
         image: "https://loremflickr.com/600/400/cornedbeef?lock=4"
     },
@@ -2181,7 +1117,7 @@ const sampleProducts = [
     {
         name: "UFC Banana Ketchup",
         description: "Sweet Filipino-style banana ketchup.",
-        price: 38,
+        price: 38.00,
         quantity: 25,
         image: "https://loremflickr.com/600/400/ketchup?lock=5"
     },
@@ -2189,7 +1125,7 @@ const sampleProducts = [
     {
         name: "Datu Puti Soy Sauce",
         description: "Filipino soy sauce for cooking and dipping.",
-        price: 30,
+        price: 30.00,
         quantity: 40,
         image: "https://loremflickr.com/600/400/soysauce?lock=6"
     },
@@ -2197,7 +1133,7 @@ const sampleProducts = [
     {
         name: "Datu Puti Vinegar",
         description: "Traditional Filipino vinegar.",
-        price: 28,
+        price: 28.00,
         quantity: 38,
         image: "https://loremflickr.com/600/400/vinegar?lock=7"
     },
@@ -2205,7 +1141,7 @@ const sampleProducts = [
     {
         name: "Silver Swan Soy Sauce",
         description: "Popular Filipino soy sauce.",
-        price: 35,
+        price: 35.00,
         quantity: 31,
         image: "https://loremflickr.com/600/400/soysauce?lock=8"
     },
@@ -2213,23 +1149,23 @@ const sampleProducts = [
     {
         name: "Mang Tomas All Around Sarsa",
         description: "Filipino-style savory sauce.",
-        price: 48,
+        price: 48.00,
         quantity: 20,
         image: "https://loremflickr.com/600/400/sauce?lock=9"
     },
 
     {
         name: "Jolly Cream Style Corn",
-        description: "Cream-style canned corn.",
-        price: 39,
+        description: "Cream-style canned corn for Filipino dishes.",
+        price: 39.00,
         quantity: 24,
         image: "https://loremflickr.com/600/400/corn?lock=10"
     },
 
     {
         name: "Eden Cheese",
-        description: "Popular processed cheese.",
-        price: 95,
+        description: "Popular processed cheese in the Philippines.",
+        price: 95.00,
         quantity: 15,
         image: "https://loremflickr.com/600/400/cheese?lock=11"
     },
@@ -2237,7 +1173,7 @@ const sampleProducts = [
     {
         name: "Bear Brand Milk",
         description: "Milk powder commonly used by Filipino families.",
-        price: 115,
+        price: 115.00,
         quantity: 18,
         image: "https://loremflickr.com/600/400/milk?lock=12"
     },
@@ -2245,15 +1181,15 @@ const sampleProducts = [
     {
         name: "Milo Chocolate Drink",
         description: "Chocolate malt beverage powder.",
-        price: 125,
+        price: 125.00,
         quantity: 22,
         image: "https://loremflickr.com/600/400/chocolate-drink?lock=13"
     },
 
     {
         name: "Nescafe Coffee",
-        description: "Instant coffee for everyday households.",
-        price: 85,
+        description: "Instant coffee for everyday Filipino households.",
+        price: 85.00,
         quantity: 30,
         image: "https://loremflickr.com/600/400/coffee?lock=14"
     },
@@ -2261,7 +1197,7 @@ const sampleProducts = [
     {
         name: "Kopiko Brown Coffee",
         description: "Sweet instant coffee mix.",
-        price: 75,
+        price: 75.00,
         quantity: 27,
         image: "https://loremflickr.com/600/400/coffee?lock=15"
     },
@@ -2269,7 +1205,7 @@ const sampleProducts = [
     {
         name: "Rebisco Crackers",
         description: "Popular Filipino snack crackers.",
-        price: 12,
+        price: 12.00,
         quantity: 50,
         image: "https://loremflickr.com/600/400/crackers?lock=16"
     },
@@ -2277,7 +1213,7 @@ const sampleProducts = [
     {
         name: "Fita Crackers",
         description: "Classic crispy crackers.",
-        price: 10,
+        price: 10.00,
         quantity: 45,
         image: "https://loremflickr.com/600/400/crackers?lock=17"
     },
@@ -2285,7 +1221,7 @@ const sampleProducts = [
     {
         name: "Boy Bawang Cornick",
         description: "Popular Filipino corn snack.",
-        price: 10,
+        price: 10.00,
         quantity: 60,
         image: "https://loremflickr.com/600/400/corn-snack?lock=18"
     },
@@ -2293,7 +1229,7 @@ const sampleProducts = [
     {
         name: "Chippy Corn Chips",
         description: "Popular Filipino corn chip snack.",
-        price: 15,
+        price: 15.00,
         quantity: 55,
         image: "https://loremflickr.com/600/400/chips?lock=19"
     },
@@ -2301,7 +1237,7 @@ const sampleProducts = [
     {
         name: "Piattos Cheese",
         description: "Crispy cheese-flavored potato snack.",
-        price: 20,
+        price: 20.00,
         quantity: 42,
         image: "https://loremflickr.com/600/400/chips?lock=20"
     }
@@ -2309,236 +1245,30 @@ const sampleProducts = [
 ];
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/* =====================================================
+   INITIALIZE SYSTEM
+===================================================== */
 
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
 
-            event.preventDefault();
+        await loadProducts();
 
-
-            const email =
-                document
-                    .getElementById("loginEmail")
-                    .value
-                    .trim();
-
-
-            const password =
-                document
-                    .getElementById("loginPassword")
-                    .value;
-
-
-            showLoading(true);
-
-
-            try {
-
-                await auth.signInWithEmailAndPassword(
-                    email,
-                    password
-                );
-
-            } catch(error) {
-
-                console.error(error);
-
-                showLoginError(
-                    getFirebaseErrorMessage(error)
-                );
-
-                showLoading(false);
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-auth.onAuthStateChanged(
-    async function(user) {
-
-        if (!user) {
-
-            currentUser = null;
-
-            currentRole = null;
-
-            document
-                .getElementById("loginPage")
-                .style.display = "flex";
-
-
-            document
-                .getElementById("app")
-                .classList.remove("show");
-
-
-            showLoading(false);
-
-            return;
-        }
-
-
-        currentUser = user;
-
-
-        try {
-
-            await loadUserRole(user.uid);
-
-        } catch(error) {
-
-            console.error(error);
-
-            showLoginError(
-                "Your account does not have an assigned role."
+        document
+            .getElementById("productForm")
+            .addEventListener(
+                "submit",
+                handleFormSubmit
             );
-
-            await auth.signOut();
-
-        } finally {
-
-            showLoading(false);
-
-        }
 
     }
 );
 
 
-/* =========================================================
-   LOAD USER ROLE
-========================================================= */
-
-async function loadUserRole(uid) {
-
-    const snapshot =
-        await usersRef
-            .child(uid)
-            .once("value");
-
-
-    if (!snapshot.exists()) {
-
-        throw new Error(
-            "User role not found."
-        );
-
-    }
-
-
-    const userData =
-        snapshot.val();
-
-
-    currentRole =
-        String(
-            userData.role || ""
-        ).toLowerCase();
-
-
-    if (
-        currentRole !== "admin" &&
-        currentRole !== "staff"
-    ) {
-
-        throw new Error(
-            "Invalid role."
-        );
-
-    }
-
-
-    setupUserInterface(
-        userData
-    );
-
-
-    document
-        .getElementById("loginPage")
-        .style.display = "none";
-
-
-    document
-        .getElementById("app")
-        .classList.add("show");
-
-
-    await loadProducts();
-
-}
-
-
-/* =========================================================
-   USER INTERFACE BY ROLE
-========================================================= */
-
-function setupUserInterface(userData) {
-
-    const name =
-        userData.name ||
-        currentUser.email.split("@")[0];
-
-
-    document
-        .getElementById("userName")
-        .textContent = name;
-
-
-    document
-        .getElementById("userRole")
-        .textContent =
-            currentRole.toUpperCase();
-
-
-    document
-        .getElementById("userAvatar")
-        .textContent =
-            name
-                .substring(0,2)
-                .toUpperCase();
-
-
-    const isAdmin =
-        currentRole === "admin";
-
-
-    document
-        .getElementById("addProductNav")
-        .style.display =
-            isAdmin ? "block" : "none";
-
-
-    document
-        .getElementById("addProductButton")
-        .style.display =
-            isAdmin ? "block" : "none";
-
-
-    document
-        .getElementById("staffNotice")
-        .classList.toggle(
-            "show",
-            !isAdmin
-        );
-
-}
-
-
-/* =========================================================
-   LOAD PRODUCTS
-========================================================= */
+/* =====================================================
+   FIREBASE GET
+===================================================== */
 
 async function loadProducts() {
 
@@ -2546,45 +1276,44 @@ async function loadProducts() {
 
     try {
 
-        const snapshot =
-            await productsRef.once("value");
+        const response =
+            await fetch(`${PRODUCTS_PATH}.json`);
 
+        if (!response.ok) {
+            throw new Error(
+                "Unable to connect to Firebase."
+            );
+        }
 
-        if (!snapshot.exists()) {
+        const data =
+            await response.json();
 
-            await initializeSampleProducts();
-
-            const newSnapshot =
-                await productsRef.once(
-                    "value"
-                );
+        if (data) {
 
             products =
-                convertFirebaseProducts(
-                    newSnapshot.val()
+                Object.entries(data).map(
+                    ([id, product]) => ({
+                        id,
+                        ...product
+                    })
                 );
 
         } else {
 
-            products =
-                convertFirebaseProducts(
-                    snapshot.val()
-                );
+            await initializeSampleProducts();
 
         }
-
 
         renderProducts();
 
         updateStatistics();
 
-
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
         showToast(
-            "Unable to load products.",
+            "Firebase connection failed. Check your database rules.",
             true
         );
 
@@ -2593,211 +1322,153 @@ async function loadProducts() {
         showLoading(false);
 
     }
-
 }
 
 
-/* =========================================================
-   CONVERT FIREBASE DATA
-========================================================= */
+/* =====================================================
+   INITIALIZE SAMPLE PRODUCTS
+===================================================== */
 
-function convertFirebaseProducts(data) {
+async function initializeSampleProducts() {
 
-    if (!data) {
-        return [];
+    for (const product of sampleProducts) {
+
+        const id =
+            createFirebaseKey();
+
+        await saveProductToFirebase(
+            id,
+            {
+                ...product,
+                createdAt: Date.now()
+            }
+        );
+
     }
 
+    products =
+        sampleProducts.map(
+            (product) => ({
+                id: createFirebaseKey(),
+                ...product
+            })
+        );
 
-    return Object
-        .entries(data)
-        .map(
+    /*
+       Reload actual Firebase data
+       after initialization.
+    */
+
+    const response =
+        await fetch(`${PRODUCTS_PATH}.json`);
+
+    const data =
+        await response.json();
+
+    products =
+        Object.entries(data).map(
             ([id, product]) => ({
                 id,
                 ...product
             })
         );
-
 }
 
 
-/* =========================================================
-   SAMPLE PRODUCTS
-========================================================= */
+/* =====================================================
+   CREATE FIREBASE KEY
+===================================================== */
 
-async function initializeSampleProducts() {
+function createFirebaseKey() {
 
-    const updates = {};
-
-
-    sampleProducts.forEach(
-        product => {
-
-            const key =
-                productsRef.push().key;
-
-
-            updates[key] = {
-
-                ...product,
-
-                createdAt:
-                    firebase.database
-                        .ServerValue
-                        .TIMESTAMP
-
-            };
-
-        }
-    );
-
-
-    await productsRef.update(
-        updates
+    return (
+        Date.now().toString(36) +
+        Math.random()
+            .toString(36)
+            .substring(2, 10)
     );
 
 }
 
 
-/* =========================================================
-   ADD PRODUCT
-========================================================= */
+/* =====================================================
+   SAVE PRODUCT
+===================================================== */
 
-async function addProduct(product) {
-
-    const newRef =
-        productsRef.push();
-
-
-    await newRef.set({
-
-        ...product,
-
-        createdAt:
-            firebase.database
-                .ServerValue
-                .TIMESTAMP,
-
-        updatedAt:
-            firebase.database
-                .ServerValue
-                .TIMESTAMP
-
-    });
-
-
-    return newRef.key;
-
-}
-
-
-/* =========================================================
-   UPDATE PRODUCT
-========================================================= */
-
-async function updateProduct(
+async function saveProductToFirebase(
     id,
     product
 ) {
 
-    await productsRef
-        .child(id)
-        .update({
+    const response =
+        await fetch(
+            `${PRODUCTS_PATH}/${id}.json`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+                body: JSON.stringify(product)
+            }
+        );
 
-            ...product,
+    if (!response.ok) {
+        throw new Error(
+            "Could not save product."
+        );
+    }
 
-            updatedAt:
-                firebase.database
-                    .ServerValue
-                    .TIMESTAMP
-
-        });
-
+    return response.json();
 }
 
 
-/* =========================================================
-   DELETE PRODUCT
-========================================================= */
+/* =====================================================
+   CREATE / UPDATE
+===================================================== */
 
-async function removeProduct(id) {
-
-    await productsRef
-        .child(id)
-        .remove();
-
-}
-
-
-/* =========================================================
-   PRODUCT FORM
-========================================================= */
-
-document
-    .getElementById("productForm")
-    .addEventListener(
-        "submit",
-        handleProductSubmit
-    );
-
-
-async function handleProductSubmit(
-    event
-) {
+async function handleFormSubmit(event) {
 
     event.preventDefault();
 
-
-    if (currentRole !== "admin") {
-
-        showToast(
-            "Only administrators can manage products.",
-            true
-        );
-
-        return;
-
-    }
-
-
     const id =
-        document
-            .getElementById("productId")
-            .value;
-
+        document.getElementById(
+            "productId"
+        ).value;
 
     const product = {
 
         name:
-            document
-                .getElementById("productName")
-                .value
-                .trim(),
+            document.getElementById(
+                "productName"
+            ).value.trim(),
 
         description:
-            document
-                .getElementById("productDescription")
-                .value
-                .trim(),
+            document.getElementById(
+                "productDescription"
+            ).value.trim(),
 
         price:
             Number(
-                document
-                    .getElementById("productPrice")
-                    .value
+                document.getElementById(
+                    "productPrice"
+                ).value
             ),
 
         quantity:
             Number(
-                document
-                    .getElementById("productQuantity")
-                    .value
+                document.getElementById(
+                    "productQuantity"
+                ).value
             ),
 
         image:
-            document
-                .getElementById("productImage")
-                .value
-                .trim()
+            document.getElementById(
+                "productImage"
+            ).value.trim(),
+
+        updatedAt:
+            Date.now()
 
     };
 
@@ -2814,7 +1485,6 @@ async function handleProductSubmit(
         );
 
         return;
-
     }
 
 
@@ -2823,12 +1493,37 @@ async function handleProductSubmit(
 
     try {
 
-        if (id) {
+        let productId = id;
 
-            await updateProduct(
-                id,
-                product
+        if (!productId) {
+
+            productId =
+                createFirebaseKey();
+
+            product.createdAt =
+                Date.now();
+
+        }
+
+
+        await saveProductToFirebase(
+            productId,
+            product
+        );
+
+
+        const existingIndex =
+            products.findIndex(
+                p => p.id === productId
             );
+
+
+        if (existingIndex >= 0) {
+
+            products[existingIndex] = {
+                id: productId,
+                ...product
+            };
 
             showToast(
                 "Product updated successfully!"
@@ -2836,9 +1531,10 @@ async function handleProductSubmit(
 
         } else {
 
-            await addProduct(
-                product
-            );
+            products.push({
+                id: productId,
+                ...product
+            });
 
             showToast(
                 "Product added successfully!"
@@ -2849,15 +1545,17 @@ async function handleProductSubmit(
 
         closeModal();
 
-        await loadProducts();
+        renderProducts();
+
+        updateStatistics();
 
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
         showToast(
-            "Unable to save product.",
+            "Unable to save product to Firebase.",
             true
         );
 
@@ -2870,67 +1568,54 @@ async function handleProductSubmit(
 }
 
 
-/* =========================================================
+/* =====================================================
    EDIT PRODUCT
-========================================================= */
+===================================================== */
 
 function editProduct(id) {
-
-    if (currentRole !== "admin") {
-
-        showToast(
-            "Only administrators can edit products.",
-            true
-        );
-
-        return;
-
-    }
-
 
     const product =
         products.find(
             p => p.id === id
         );
 
-
     if (!product) return;
 
 
-    document
-        .getElementById("productId")
-        .value = product.id;
+    document.getElementById(
+        "productId"
+    ).value = product.id;
 
 
-    document
-        .getElementById("productName")
-        .value = product.name;
+    document.getElementById(
+        "productName"
+    ).value = product.name;
 
 
-    document
-        .getElementById("productDescription")
-        .value = product.description;
+    document.getElementById(
+        "productDescription"
+    ).value = product.description;
 
 
-    document
-        .getElementById("productPrice")
-        .value = product.price;
+    document.getElementById(
+        "productPrice"
+    ).value = product.price;
 
 
-    document
-        .getElementById("productQuantity")
-        .value = product.quantity;
+    document.getElementById(
+        "productQuantity"
+    ).value = product.quantity;
 
 
-    document
-        .getElementById("productImage")
-        .value = product.image;
+    document.getElementById(
+        "productImage"
+    ).value = product.image;
 
 
-    document
-        .getElementById("modalTitle")
-        .textContent =
-            "Edit Product";
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Edit Product";
 
 
     document
@@ -2940,36 +1625,23 @@ function editProduct(id) {
 }
 
 
-/* =========================================================
-   DELETE
-========================================================= */
+/* =====================================================
+   DELETE PRODUCT
+===================================================== */
 
 async function deleteProduct(id) {
-
-    if (currentRole !== "admin") {
-
-        showToast(
-            "Only administrators can delete products.",
-            true
-        );
-
-        return;
-
-    }
-
 
     const product =
         products.find(
             p => p.id === id
         );
 
-
     if (!product) return;
 
 
     const confirmed =
         confirm(
-            `Delete "${product.name}"?`
+            `Delete "${product.name}" from inventory?`
         );
 
 
@@ -2981,16 +1653,41 @@ async function deleteProduct(id) {
 
     try {
 
-        await removeProduct(id);
+        const response =
+            await fetch(
+                `${PRODUCTS_PATH}/${id}.json`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Delete failed."
+            );
+
+        }
+
+
+        products =
+            products.filter(
+                p => p.id !== id
+            );
+
+
+        renderProducts();
+
+        updateStatistics();
+
 
         showToast(
             "Product deleted successfully!"
         );
 
-        await loadProducts();
 
-
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -3008,105 +1705,18 @@ async function deleteProduct(id) {
 }
 
 
-/* =========================================================
-   STAFF UPDATE QUANTITY
-========================================================= */
-
-async function updateQuantity(
-    id
-) {
-
-    if (currentRole !== "staff") {
-
-        return;
-
-    }
-
-
-    const input =
-        document
-            .getElementById(
-                `staffQuantity-${id}`
-            );
-
-
-    const quantity =
-        Number(input.value);
-
-
-    if (
-        Number.isNaN(quantity) ||
-        quantity < 0
-    ) {
-
-        showToast(
-            "Enter a valid quantity.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    showLoading(true);
-
-
-    try {
-
-        await productsRef
-            .child(id)
-            .update({
-
-                quantity,
-
-                updatedAt:
-                    firebase.database
-                        .ServerValue
-                        .TIMESTAMP
-
-            });
-
-
-        showToast(
-            "Quantity updated successfully!"
-        );
-
-
-        await loadProducts();
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        showToast(
-            "Unable to update quantity.",
-            true
-        );
-
-    } finally {
-
-        showLoading(false);
-
-    }
-
-}
-
-
-/* =========================================================
+/* =====================================================
    RENDER PRODUCTS
-========================================================= */
+===================================================== */
 
 function renderProducts(
     productList = products
 ) {
 
     const grid =
-        document
-            .getElementById(
-                "productsGrid"
-            );
+        document.getElementById(
+            "productsGrid"
+        );
 
 
     if (!productList.length) {
@@ -3115,16 +1725,12 @@ function renderProducts(
 
             <div class="empty-state">
 
-                <div class="empty-state-icon">
-                    📦
-                </div>
+                <div>📦</div>
 
-                <h3>
-                    No Products Found
-                </h3>
+                <h3>No Products Found</h3>
 
                 <p>
-                    No products match your search.
+                    Add your first product to the inventory.
                 </p>
 
             </div>
@@ -3138,51 +1744,81 @@ function renderProducts(
 
     grid.innerHTML =
         productList
-            .map(
-                product => {
+            .map(product => {
 
-                    let stockClass =
-                        "stock-good";
+                let stockClass =
+                    "stock-good";
 
-                    let stockText =
-                        "In Stock";
-
-
-                    if (
-                        Number(product.quantity) === 0
-                    ) {
-
-                        stockClass =
-                            "stock-out";
-
-                        stockText =
-                            "Out of Stock";
-
-                    }
-
-                    else if (
-                        Number(product.quantity) <= 10
-                    ) {
-
-                        stockClass =
-                            "stock-low";
-
-                        stockText =
-                            "Low Stock";
-
-                    }
+                let stockText =
+                    "In Stock";
 
 
-                    let actions = "";
+                if (
+                    Number(product.quantity) === 0
+                ) {
+
+                    stockClass =
+                        "stock-out";
+
+                    stockText =
+                        "Out of Stock";
+
+                } else if (
+                    Number(product.quantity) <= 10
+                ) {
+
+                    stockClass =
+                        "stock-low";
+
+                    stockText =
+                        "Low Stock";
+
+                }
 
 
-                    /* ADMIN */
+                return `
 
-                    if (
-                        currentRole === "admin"
-                    ) {
+                    <article class="product-card">
 
-                        actions = `
+                        <img
+                            class="product-image"
+                            src="${escapeHtml(product.image)}"
+                            alt="${escapeHtml(product.name)}"
+                            onerror="this.src='https://placehold.co/600x400/e8f7ed/16803a?text=J%26A+Store'"
+                        >
+
+                        <div class="product-info">
+
+                            <div class="product-name">
+                                ${escapeHtml(product.name)}
+                            </div>
+
+                            <div class="product-description">
+                                ${escapeHtml(product.description)}
+                            </div>
+
+                            <div class="product-price">
+                                ₱${Number(product.price).toLocaleString(
+                                    "en-PH",
+                                    {
+                                        minimumFractionDigits: 2
+                                    }
+                                )}
+                            </div>
+
+                            <div class="quantity-row">
+
+                                <span class="quantity">
+                                    Quantity: ${Number(product.quantity)}
+                                </span>
+
+                                <span
+                                    class="stock-badge ${stockClass}"
+                                >
+                                    ${stockText}
+                                </span>
+
+                            </div>
 
                             <div class="product-actions">
 
@@ -3202,137 +1838,21 @@ function renderProducts(
 
                             </div>
 
-                        `;
+                        </div>
 
-                    }
+                    </article>
 
+                `;
 
-                    /* STAFF */
-
-                    if (
-                        currentRole === "staff"
-                    ) {
-
-                        actions = `
-
-                            <div class="staff-actions"
-                                 style="display:block">
-
-                                <input
-                                    type="number"
-                                    min="0"
-                                    id="staffQuantity-${product.id}"
-                                    value="${Number(product.quantity)}"
-                                >
-
-                                <button
-                                    class="btn btn-blue"
-                                    onclick="updateQuantity('${product.id}')"
-                                >
-                                    🔄 Update Quantity
-                                </button>
-
-                            </div>
-
-                        `;
-
-                    }
-
-
-                    return `
-
-                        <article
-                            class="product-card"
-                        >
-
-                            <img
-                                class="product-image"
-                                src="${escapeHtml(product.image)}"
-                                alt="${escapeHtml(product.name)}"
-                                onerror="
-                                    this.src='https://placehold.co/600x400/e8f7ed/16803a?text=J%26A+Store'
-                                "
-                            >
-
-
-                            <div class="product-info">
-
-                                <div class="product-name">
-
-                                    ${escapeHtml(
-                                        product.name
-                                    )}
-
-                                </div>
-
-
-                                <div class="product-description">
-
-                                    ${escapeHtml(
-                                        product.description
-                                    )}
-
-                                </div>
-
-
-                                <div class="product-price">
-
-                                    ₱${Number(
-                                        product.price
-                                    ).toLocaleString(
-                                        "en-PH",
-                                        {
-                                            minimumFractionDigits: 2
-                                        }
-                                    )}
-
-                                </div>
-
-
-                                <div class="quantity-row">
-
-                                    <span class="quantity">
-
-                                        Quantity:
-                                        ${Number(
-                                            product.quantity
-                                        )}
-
-                                    </span>
-
-
-                                    <span
-                                        class="
-                                            stock-badge
-                                            ${stockClass}
-                                        "
-                                    >
-
-                                        ${stockText}
-
-                                    </span>
-
-                                </div>
-
-
-                                ${actions}
-
-                            </div>
-
-                        </article>
-
-                    `;
-
-                }
-            )
+            })
             .join("");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SEARCH
-========================================================= */
+===================================================== */
 
 function searchProducts() {
 
@@ -3347,31 +1867,29 @@ function searchProducts() {
 
 
     const filtered =
-        products.filter(
-            product =>
+        products.filter(product =>
 
-                product.name
-                    .toLowerCase()
-                    .includes(search)
+            product.name
+                .toLowerCase()
+                .includes(search)
 
-                ||
+            ||
 
-                product.description
-                    .toLowerCase()
-                    .includes(search)
+            product.description
+                .toLowerCase()
+                .includes(search)
+
         );
 
 
-    renderProducts(
-        filtered
-    );
+    renderProducts(filtered);
 
 }
 
 
-/* =========================================================
+/* =====================================================
    STATISTICS
-========================================================= */
+===================================================== */
 
 function updateStatistics() {
 
@@ -3381,14 +1899,9 @@ function updateStatistics() {
 
     const totalQuantity =
         products.reduce(
-            (
-                total,
-                product
-            ) =>
-                total +
-                Number(
-                    product.quantity || 0
-                ),
+            (sum, product) =>
+                sum +
+                Number(product.quantity || 0),
             0
         );
 
@@ -3396,33 +1909,18 @@ function updateStatistics() {
     const lowStock =
         products.filter(
             product =>
-                Number(
-                    product.quantity
-                ) <= 10
+                Number(product.quantity) <= 10
         ).length;
 
 
     const inventoryValue =
         products.reduce(
-            (
-                total,
-                product
-            ) =>
-
-                total +
-
+            (sum, product) =>
+                sum +
                 (
-                    Number(
-                        product.price || 0
-                    )
-
-                    *
-
-                    Number(
-                        product.quantity || 0
-                    )
+                    Number(product.price || 0) *
+                    Number(product.quantity || 0)
                 ),
-
             0
         );
 
@@ -3445,26 +1943,23 @@ function updateStatistics() {
     );
 
 
-    document
-        .getElementById(
-            "inventoryValue"
-        )
-        .textContent =
-            "₱" +
-
-            inventoryValue.toLocaleString(
-                "en-PH",
-                {
-                    minimumFractionDigits: 2
-                }
-            );
+    document.getElementById(
+        "inventoryValue"
+    ).textContent =
+        "₱" +
+        inventoryValue.toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits: 2
+            }
+        );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    NUMBER ANIMATION
-========================================================= */
+===================================================== */
 
 function animateNumber(
     elementId,
@@ -3472,39 +1967,34 @@ function animateNumber(
 ) {
 
     const element =
-        document
-            .getElementById(
-                elementId
-            );
+        document.getElementById(
+            elementId
+        );
 
 
     const start =
         Number(
-            element
-                .textContent
-                .replace(
-                    /[^0-9]/g,
-                    ""
-                )
+            element.textContent.replace(
+                /[^0-9]/g,
+                ""
+            )
         ) || 0;
 
 
-    const duration = 500;
+    const duration =
+        500;
+
 
     const startTime =
         performance.now();
 
 
-    function update(
-        currentTime
-    ) {
+    function update(currentTime) {
 
         const progress =
             Math.min(
-                (
-                    currentTime -
-                    startTime
-                ) / duration,
+                (currentTime - startTime) /
+                duration,
                 1
             );
 
@@ -3512,10 +2002,7 @@ function animateNumber(
         const value =
             Math.floor(
                 start +
-                (
-                    target -
-                    start
-                ) *
+                (target - start) *
                 progress
             );
 
@@ -3524,145 +2011,73 @@ function animateNumber(
             value.toLocaleString();
 
 
-        if (
-            progress < 1
-        ) {
+        if (progress < 1) {
 
-            requestAnimationFrame(
-                update
-            );
+            requestAnimationFrame(update);
 
         }
 
     }
 
 
-    requestAnimationFrame(
-        update
-    );
+    requestAnimationFrame(update);
 
 }
 
 
-/* =========================================================
-   ADD MODAL
-========================================================= */
+/* =====================================================
+   ADD PRODUCT MODAL
+===================================================== */
 
 function openAddModal() {
 
-    if (
-        currentRole !== "admin"
-    ) {
-
-        showToast(
-            "Only administrators can add products.",
-            true
-        );
-
-        return;
-
-    }
+    editingProductId = null;
 
 
-    document
-        .getElementById(
-            "productForm"
-        )
-        .reset();
+    document.getElementById(
+        "productForm"
+    ).reset();
+
+
+    document.getElementById(
+        "productId"
+    ).value = "";
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Add Product";
 
 
     document
-        .getElementById(
-            "productId"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "modalTitle"
-        )
-        .textContent =
-            "Add Product";
-
-
-    document
-        .getElementById(
-            "productModal"
-        )
-        .classList.add(
-            "show"
-        );
+        .getElementById("productModal")
+        .classList.add("show");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CLOSE MODAL
-========================================================= */
+===================================================== */
 
 function closeModal() {
 
     document
-        .getElementById(
-            "productModal"
-        )
-        .classList.remove(
-            "show"
-        );
+        .getElementById("productModal")
+        .classList.remove("show");
 
 }
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+/* =====================================================
+   FOCUS PRODUCTS
+===================================================== */
 
-async function logout() {
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to logout?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    try {
-
-        await auth.signOut();
-
-        showToast(
-            "Logged out successfully."
-        );
-
-    } catch(error) {
-
-        console.error(error);
-
-        showToast(
-            "Unable to logout.",
-            true
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
-function scrollProducts() {
+function focusProducts() {
 
     document
-        .getElementById(
-            "productsGrid"
-        )
+        .getElementById("productsGrid")
         .scrollIntoView({
             behavior: "smooth"
         });
@@ -3670,88 +2085,35 @@ function scrollProducts() {
 }
 
 
-/* =========================================================
-   LOGIN ERROR
-========================================================= */
+/* =====================================================
+   LOADING
+===================================================== */
 
-function showLoginError(
-    message
-) {
+function showLoading(show) {
 
-    const error =
-        document
-            .getElementById(
-                "loginError"
-            );
-
-
-    error.textContent =
-        message;
-
-
-    error.classList.add(
-        "show"
-    );
+    document
+        .getElementById("loading")
+        .classList.toggle(
+            "hidden",
+            !show
+        );
 
 }
 
 
-/* =========================================================
-   FIREBASE ERROR MESSAGE
-========================================================= */
-
-function getFirebaseErrorMessage(
-    error
-) {
-
-    switch(error.code) {
-
-        case "auth/invalid-email":
-
-            return "Invalid email address.";
-
-        case "auth/user-not-found":
-
-            return "No account found with this email.";
-
-        case "auth/wrong-password":
-
-            return "Incorrect password.";
-
-        case "auth/invalid-credential":
-
-            return "Incorrect email or password.";
-
-        case "auth/too-many-requests":
-
-            return "Too many login attempts. Try again later.";
-
-        default:
-
-            return (
-                error.message ||
-                "Login failed."
-            );
-
-    }
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
+/* =====================================================
+   TOAST MESSAGE
+===================================================== */
 
 function showToast(
     message,
-    isError = false
+    error = false
 ) {
 
     const toast =
-        document
-            .getElementById(
-                "toast"
-            );
+        document.getElementById(
+            "toast"
+        );
 
 
     toast.textContent =
@@ -3760,17 +2122,15 @@ function showToast(
 
     toast.classList.toggle(
         "error",
-        isError
+        error
     );
 
 
-    toast.classList.add(
-        "show"
-    );
+    toast.classList.add("show");
 
 
     setTimeout(
-        function() {
+        () => {
 
             toast.classList.remove(
                 "show"
@@ -3783,56 +2143,29 @@ function showToast(
 }
 
 
-/* =========================================================
-   LOADING
-========================================================= */
-
-function showLoading(
-    show
-) {
-
-    document
-        .getElementById(
-            "loading"
-        )
-        .classList.toggle(
-            "hidden",
-            !show
-        );
-
-}
-
-
-/* =========================================================
+/* =====================================================
    ESCAPE HTML
-========================================================= */
+===================================================== */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(value)
-
         .replace(
             /&/g,
             "&amp;"
         )
-
         .replace(
             /</g,
             "&lt;"
         )
-
         .replace(
             />/g,
             "&gt;"
         )
-
         .replace(
             /"/g,
             "&quot;"
         )
-
         .replace(
             /'/g,
             "&#039;"
@@ -3841,14 +2174,12 @@ function escapeHtml(
 }
 
 
-/* =========================================================
-   CLOSE MODAL OUTSIDE
-========================================================= */
+/* =====================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+===================================================== */
 
 document
-    .getElementById(
-        "productModal"
-    )
+    .getElementById("productModal")
     .addEventListener(
         "click",
         function(event) {
@@ -3865,9 +2196,9 @@ document
     );
 
 
-/* =========================================================
-   ESCAPE KEY
-========================================================= */
+/* =====================================================
+   ESC KEY
+===================================================== */
 
 document.addEventListener(
     "keydown",
